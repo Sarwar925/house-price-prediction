@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>House Price Prediction</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 40px; background: #f4f4f9; }
+        .container { max-width: 800px; margin: auto; background: white; padding: 30px; border-radius: 10px; box-shadow: 0px 0px 10px rgba(0,0,0,0.2); }
+        h1 { text-align: center; color: #333; }
+        form { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
+        label { font-weight: bold; }
+        input { padding: 8px; border-radius: 5px; border: 1px solid #ccc; }
+        button { grid-column: span 2; padding: 10px; background: #28a745; color: white; border: none; border-radius: 5px; cursor: pointer; }
+        button:hover { background: #218838; }
+        .result, .error, .info, .metrics { margin-top: 20px; padding: 15px; border-radius: 5px; }
+        .result { background: #e6f7ff; color: #005073; font-weight: bold; }
+        .error { background: #ffebee; color: #c62828; }
+        .info { background: #f9f9f9; color: #333; }
+        table { width: 100%; border-collapse: collapse; margin-top: 10px; }
+        th, td { border: 1px solid #ddd; padding: 8px; text-align: center; }
+        th { background: #f2f2f2; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>House Price Prediction</h1>
+
+        <form method="POST">
+            {% for field in fields %}
+            <div>
+                <label>{{ field }}</label>
+                <input type="text" name="{{ field }}" placeholder="Enter {{ field }}">
+            </div>
+            {% endfor %}
+            <button type="submit">Predict</button>
+        </form>
+
+        {% if prediction %}
+        <div class="result">
+            Predicted House Price: <strong>${{ prediction }}</strong>
+        </div>
+        {% endif %}
+
+        {% if error %}
+        <div class="error">
+            {{ error }}
+        </div>
+        {% endif %}
+
+        <div class="info">
+            <p><strong>Best Model:</strong> {{ best_model }}</p>
+            <p><strong>Model File Path:</strong> <code>B:\Projects\House Price Prediction\models\model.pkl</code></p>
+        </div>
+
+        {% if metrics %}
+        <div class="metrics">
+            <h3>Model Performance Comparison</h3>
+            <table>
+                <tr>
+                    <th>Model</th>
+                    <th>R² Score</th>
+                    <th>RMSE</th>
+                    <th>MAE</th>
+                </tr>
+                {% for name, m in metrics.items() %}
+                <tr {% if name == best_model %} style="background:#d4edda;font-weight:bold;" {% endif %}>
+                    <td>{{ name }}</td>
+                    <td>{{ m.R2 }}</td>
+                    <td>{{ m.RMSE }}</td>
+                    <td>{{ m.MAE }}</td>
+                </tr>
+                {% endfor %}
+            </table>
+        </div>
+        {% endif %}
+    </div>
+</body>
+</html>
