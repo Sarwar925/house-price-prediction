@@ -1,4 +1,4 @@
-# House Price Prediction (Flask + ML)
+# House Price Prediction (Flask + ML) for assignment 2
 
 End-to-end project:
 - EDA & data visualization
